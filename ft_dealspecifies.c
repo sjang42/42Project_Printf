@@ -10,4 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+#include "use_libft.h"
 
+int		ft_deal_flag(t_specifies *specifies, char *str)
+{
+	int diff;
+
+	if (specifies->flag == '0')
+	{
+		if (specifies->precision != 0 || specifies-> )
+
+
+
+		if ((diff = ft_strlen(str)) < )
+
+
+
+
+
+
+	}
+
+
+
+}

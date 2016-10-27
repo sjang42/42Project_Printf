@@ -14,7 +14,7 @@
 
 void			ft_specifies_init(t_specifies *specifies)
 {
-	specifies->flag = 0;
+	specifies->flag = FLAG_NOTHING;
 	specifies->width = 0;
 	specifies->precision = 0;
 	specifies->length = 0;
