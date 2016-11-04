@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "use_libft.h"
 
 void			ft_specifies_init(t_specifies *specifies)
 {
@@ -19,6 +20,8 @@ void			ft_specifies_init(t_specifies *specifies)
 	specifies->precision = 0;
 	specifies->length = 0;
 	specifies->type = 0;
+	specifies->fromleft = 0;
+	specifies->firstch = 0;
 }
 
 t_specifies		*ft_new_specifies(void)
@@ -30,18 +33,21 @@ t_specifies		*ft_new_specifies(void)
 	return (specifies);
 }
 
-int				ft_get_specifies(const char *restrict format, t_specifies *specifies)
+int				ft_get_specifies(const char *restrict format,
+									t_specifies *specifies, va_list ap)
 {
 	int i;
 	int checkerror;
 
 	i = 0;
 	i += ft_get_flag(format, &(specifies->flag));
-	checkerror = ft_get_width(format + i, &(specifies->width));
+	if (specifies->flag & FLAG_MINUS)
+		specifies->fromleft = 1;
+	checkerror = ft_get_width(format + i, &(specifies->width), ap);
 	if (checkerror == -1)
 		return (-1);
 	i += checkerror;
-	checkerror = ft_get_precision(format + i, &(specifies->precision));
+	checkerror = ft_get_precision(format + i, &(specifies->precision), ap);
 	if (checkerror == -1)
 		return (-1);
 	i += checkerror;

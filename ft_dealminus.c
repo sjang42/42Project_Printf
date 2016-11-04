@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dealspecifies.c                                 :+:      :+:    :+:   */
+/*   ft_dealminus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sjang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/26 19:31:58 by sjang             #+#    #+#             */
-/*   Updated: 2016/10/26 19:31:59 by sjang            ###   ########.fr       */
+/*   Created: 2016/11/02 16:23:19 by sjang             #+#    #+#             */
+/*   Updated: 2016/11/02 16:23:30 by sjang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "use_libft.h"
 
-int		ft_deal_flag(t_specifies *specifies, char *str)
+int ft_dealminus(t_specifies *specifies, char **str)
 {
-	int diff;
-
-	if (specifies->flag == '0')
+	specifies->firstch = (*str)[0];
+	if ((*str)[0] == '-')
 	{
-		if (specifies->precision != 0 || specifies-> )
-
-
-
-		if ((diff = ft_strlen(str)) < )
-
-
-
-
-
-
+		ft_memmove(*str, (*str) + 1, ft_strlen(*str));
+		return (1);
 	}
-
-
-
+	return (0);
 }

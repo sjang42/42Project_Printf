@@ -14,7 +14,7 @@
 #include "use_libft.h"
 #include <stdio.h>///
 
-int		ft_get_flag(const char *restrict format, printfflags *flag)
+int		ft_get_flag(const char *restrict format, enum e_printfflags	*flag)
 {
 	int i;
 
@@ -31,6 +31,8 @@ int		ft_get_flag(const char *restrict format, printfflags *flag)
 			*flag |= FLAG_MINUS;
 		else if (format[i] == ' ')
 			*flag |= FLAG_SPACE;
+		else if (format[i] == '%')
+			*flag |= FLAG_PERCENT;
 		else
 			break;
 		i++;
@@ -38,7 +40,7 @@ int		ft_get_flag(const char *restrict format, printfflags *flag)
 	return (i);
 }
 
-int		ft_get_width(const char *restrict format, int *width)
+int		ft_get_width(const char *restrict format, int *width, va_list ap)
 {
 	int		i;
 	int		tempwidth;
@@ -47,14 +49,12 @@ int		ft_get_width(const char *restrict format, int *width)
 	i = 0;
 	tempwidth = 0;
 	count = 0;
-	while (!ft_get_precision(format + i, NULL) &&
+	while (!ft_get_precision(format + i, NULL, 0) &&
 			!ft_get_length(format + i, NULL) &&
 			!ft_get_type(format + i, NULL))
 	{
-		if (tempwidth == -42)
-			return (-1);
 		if (i == 0 && format[i] == '*')
-			tempwidth = -42;
+			tempwidth = (int)va_arg(ap, int);
 		else if (ft_isdigit(format[i]))
 			tempwidth = (tempwidth * 10) + (format[i] - '0');
 		else
@@ -69,23 +69,21 @@ int		ft_get_width(const char *restrict format, int *width)
 	return (count);
 }
 
-int		ft_get_precision(const char *restrict format, int *precision)
+int		ft_get_precision(const char *restrict format, int *precision, va_list ap)
 {
 	int		i;
 	int		tempprecision;
 	int		count;
 
-	count = 0;
+	count = 1;
 	tempprecision = 0;
 	if (format[0] != '.')
 		return (0);
 	i = 1;
 	while (!ft_get_length(format + i, NULL) && !ft_get_type(format + i, NULL))
 	{
-		if (tempprecision == -42)
-			return (-1);
-		if (i == 1 && format[i] == '*')
-			tempprecision = -42;
+		if (i == 1 && format[i] == '*' && ap)
+			tempprecision = (int)va_arg(ap, int);
 		else if (ft_isdigit(format[i]))
 			tempprecision = (tempprecision * 10) + (format[i] - '0');
 		else
@@ -95,7 +93,7 @@ int		ft_get_precision(const char *restrict format, int *precision)
 	}
 	if (precision)
 		*precision = tempprecision;
-	return (count + 1);
+	return (count);
 }
 
 int			ft_get_length(const char *restrict format, char *length)
