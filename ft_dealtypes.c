@@ -12,6 +12,7 @@
 
 #include "ft_printf.h"
 #include "use_libft.h"
+#include <stdio.h>
 
 static int ft_dealtypes_di(t_specifies *specifies, va_list ap, char **str)
 {
@@ -124,11 +125,34 @@ static int ft_dealtypes_psc(t_specifies *specifies, va_list ap, char **str)
 		specifies->flag |= FLAG_SHARP;
 	}
 	if (specifies->type == 's')
+	{
 		*str = ft_strdup((char*)va_arg(ap, char*));
+		if (!*str)
+			*str = ft_strdup("(null)");
+	}
 	else if (specifies->type == 'c')
 	{
 		*str = (char*)malloc(sizeof(char) * 2);
 		(*str)[0] = (char)va_arg(ap, int);
+		(*str)[1] = 0;
+	}
+	if (*str)
+		return (1);
+	return (0);
+}
+
+static int ft_dealtypes_special(t_specifies *specifies, va_list ap, char **str)
+{
+	if (specifies->type == '%')
+	{
+		*str = (char*)malloc(sizeof(char) * 2);
+		(*str)[0] = '%';
+		(*str)[1] = 0;
+	}
+	else
+	{
+		*str = (char*)malloc(sizeof(char) * 2);
+		(*str)[0] = specifies->type;
 		(*str)[1] = 0;
 	}
 	if (*str)
@@ -147,11 +171,12 @@ int ft_dealtypes(t_specifies *specifies, va_list ap, char **str)
 		ft_dealtypes_uoxx(specifies, ap, str);
 	else if (specifies->type == 'O' || specifies->type == 'U')
 		ft_dealtypes_capou(specifies, ap, str);
-	if (specifies->type == 'p' || specifies->type == 's' ||
+	else if (specifies->type == 'p' || specifies->type == 's' ||
 			specifies->type == 'c')
 		ft_dealtypes_psc(specifies, ap, str);
 	else
-		ft_dealminus(specifies, str);
+		ft_dealtypes_special(specifies, ap, str);
+	ft_dealminus(specifies, str);
 	if (*str)
 		return (1);
 	return (0);

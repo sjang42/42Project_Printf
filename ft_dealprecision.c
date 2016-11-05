@@ -20,14 +20,12 @@ int				ft_dealprecision(t_specifies *specifies, char **str)
 	char *temp;
 
 	diff = specifies->precision - ft_strlen(*str);
-	if (!specifies->precision)
-		return (0);
 	if ((specifies->type == 'd' || specifies->type == 'D' ||
 		specifies->type == 'u' || specifies->type == 'U' ||
 		specifies->type == 'o' || specifies->type == 'O' ||
 		specifies->type == 'x' || specifies->type == 'X' ||
 		specifies->type == 'i' || specifies->type == 'p') &&
-		diff > 0)
+		diff > 0 && specifies->precision > 0)
 	{
 		temp = (char*)malloc(ft_strlen(*str) + diff + 1);
 		ft_memset(temp, '0', diff);
@@ -36,7 +34,13 @@ int				ft_dealprecision(t_specifies *specifies, char **str)
 		free(*str);
 		*str = temp;
 	}
-	if (specifies->type == 's' && diff < 0)
-		(*str)[specifies->precision] = 0;
-	return (1);
+	if (specifies->type == 's' && diff < 0 &&
+		specifies->thereisprecision)
+	{
+		if (specifies->precision >= 0)
+			(*str)[specifies->precision] = 0;
+		else if (specifies->precision < -1)
+			(*str)[0] = 0;
+	}
+	return (specifies->precision);
 }

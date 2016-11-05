@@ -25,6 +25,9 @@ int ft_dealwidth(t_specifies *specifies, char **str)
 		specifies->fromleft != 1)
 		return (1);
 	diff = (specifies->width - ft_strlen(*str));
+	if ((specifies->type == 'c' || specifies->type == 'C') &&
+			specifies->firstch == 0)
+		diff--;
 	if (diff <= 0)
 		return (1);
 	temp = (char*)malloc(sizeof(char) * (ft_strlen(*str) + diff + 1));

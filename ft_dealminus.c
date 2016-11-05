@@ -21,5 +21,8 @@ int ft_dealminus(t_specifies *specifies, char **str)
 		ft_memmove(*str, (*str) + 1, ft_strlen(*str));
 		return (1);
 	}
+	if (specifies->precision == 0 && specifies->thereisprecision == 1 && 
+		(*str)[0] == '0' && specifies->type != 'c')
+		*str[0] = 0;
 	return (0);
 }

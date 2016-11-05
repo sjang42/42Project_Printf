@@ -18,6 +18,8 @@ void			ft_specifies_init(t_specifies *specifies)
 	specifies->flag = FLAG_NOTHING;
 	specifies->width = 0;
 	specifies->precision = 0;
+	specifies->thereisprecision = 0;
+	specifies->thereiswidth = 0;
 	specifies->length = 0;
 	specifies->type = 0;
 	specifies->fromleft = 0;
@@ -43,11 +45,11 @@ int				ft_get_specifies(const char *restrict format,
 	i += ft_get_flag(format, &(specifies->flag));
 	if (specifies->flag & FLAG_MINUS)
 		specifies->fromleft = 1;
-	checkerror = ft_get_width(format + i, &(specifies->width), ap);
+	checkerror = ft_get_width(format + i, specifies, ap);
 	if (checkerror == -1)
 		return (-1);
 	i += checkerror;
-	checkerror = ft_get_precision(format + i, &(specifies->precision), ap);
+	checkerror = ft_get_precision(format + i, specifies, ap);
 	if (checkerror == -1)
 		return (-1);
 	i += checkerror;

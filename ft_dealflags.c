@@ -24,7 +24,6 @@ int		ft_dealflag(t_specifies *specifies, char **str)
 		specifies->fromleft != 1)
 	{
 		diff = specifies->width - ft_strlen(*str);
-		
 		if ((specifies->type == 'x' || specifies->type == 'X' ||
 			specifies->type == 'p') &&
 			specifies->flag & FLAG_SHARP && 
@@ -32,7 +31,10 @@ int		ft_dealflag(t_specifies *specifies, char **str)
 			diff -= 2;
 		else if (((specifies->type == 'o' || specifies->type == 'O') &&
 			specifies->flag & FLAG_SHARP && specifies->firstch != '0') ||
-			(specifies->flag & FLAG_PLUS || specifies->flag & FLAG_SPACE))
+			(specifies->flag & FLAG_PLUS || specifies->flag & FLAG_SPACE) ||
+			((specifies->type == 'c' || specifies->type == 'C') &&
+			specifies->firstch == 0) ||
+			specifies->firstch == '-')
 			diff -= 1;
 		if (diff > 0)
 		{
@@ -46,7 +48,7 @@ int		ft_dealflag(t_specifies *specifies, char **str)
 	}
 	if (specifies->flag & FLAG_SHARP)
 	{
-		if (specifies->firstch == '0')
+		if (specifies->firstch == '0' && specifies->type != 'p')
 			;
 		else if (specifies->type == 'o' || specifies->type == 'O')
 		{

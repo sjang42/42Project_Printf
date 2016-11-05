@@ -23,6 +23,8 @@ typedef long long			INTMAX_T;
 typedef long long			SIGNED_SIZE_T;
 typedef unsigned long long	UINTMAX_T;
 
+#define ABSOL(x) ((x) >= 0) ? (x) : ((x) * -1)
+
 enum						e_printfflags
 {
 	FLAG_NOTHING = 0,
@@ -31,7 +33,6 @@ enum						e_printfflags
 	FLAG_MINUS = 1 << 2,
 	FLAG_PLUS = 1 << 3,
 	FLAG_SPACE = 1 << 4,
-	FLAG_PERCENT = 1 << 5,
 	ALL = FLAG_ZERO | FLAG_SHARP | FLAG_MINUS | FLAG_PLUS | FLAG_SPACE
 }							printfflags;
 
@@ -40,6 +41,8 @@ typedef struct				s_specifies
 	enum e_printfflags		flag;
 	int						width;
 	int						precision;
+	int						thereisprecision;
+	int						thereiswidth;
 	int						fromleft;
 	int						firstch;
 	char					length;
@@ -47,8 +50,8 @@ typedef struct				s_specifies
 }							t_specifies;
 
 int							ft_get_flag(const char *restrict format, enum e_printfflags	*flag);
-int							ft_get_width(const char *restrict format, int *width, va_list ap);
-int							ft_get_precision(const char *restrict format, int *precision, va_list ap);
+int							ft_get_width(const char *restrict format, t_specifies *specifies, va_list ap);
+int							ft_get_precision(const char *restrict format, t_specifies *specifies, va_list ap);
 int							ft_get_length(const char *restrict format, char *length);
 int							ft_get_type(const char *restrict format, char *type);
 
@@ -60,7 +63,7 @@ int							ft_dealwidth(t_specifies *specifies, char **str);
 int							ft_dealprecision(t_specifies *specifies, char **str);
 int 						ft_dealtypes(t_specifies *specifies, va_list ap, char **str);
 
-int ft_dealminus(t_specifies *specifies, char **str);
+int							ft_dealminus(t_specifies *specifies, char **str);
 
 
 int 						ft_dealtypes_wd(t_specifies *specifies, va_list ap, WINT_T **str);
