@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
+#include "../include/ft_printf.h"
+#include <stdio.h>//
 
 int ft_dealtypes_wd(t_specifies *specifies, va_list ap, WINT_T **str)
 {

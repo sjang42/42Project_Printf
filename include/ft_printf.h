@@ -13,9 +13,11 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdarg.h>
+
+# include "../include/libft.h"
 
 typedef int					WCHAR_T;
 typedef int					WINT_T;
@@ -45,15 +47,19 @@ typedef struct				s_specifies
 	int						thereiswidth;
 	int						fromleft;
 	int						firstch;
+	int						specialtype;
 	char					length;
 	char					type;
 }							t_specifies;
+
+int							ft_printf(const char *restrict format, ...);
 
 int							ft_get_flag(const char *restrict format, enum e_printfflags	*flag);
 int							ft_get_width(const char *restrict format, t_specifies *specifies, va_list ap);
 int							ft_get_precision(const char *restrict format, t_specifies *specifies, va_list ap);
 int							ft_get_length(const char *restrict format, char *length);
-int							ft_get_type(const char *restrict format, char *type);
+int							ft_get_type(const char *restrict format, t_specifies *specifies);
+
 
 t_specifies					*ft_new_specifies(void);
 int 						ft_get_specifies(const char *restrict format, t_specifies *specifies, va_list ap);

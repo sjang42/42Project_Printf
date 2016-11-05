@@ -10,31 +10,40 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
+#include "../include/ft_printf.h"
 #include <stdio.h>//
 
 int		ft_dealflag(t_specifies *specifies, char **str)
 {
 	int diff;
 	char *temp;
-	int size;
 
-	if (specifies->flag & FLAG_ZERO && specifies->precision == 0 &&
-		specifies->fromleft != 1)
+	if (specifies->flag & FLAG_ZERO && specifies->fromleft != 1 &&
+		(specifies->thereisprecision != 1 || specifies->type == '%' ||
+		specifies->type == 'c' || specifies->type == 's' ||
+		specifies->specialtype == 1))
 	{
 		diff = specifies->width - ft_strlen(*str);
-		if ((specifies->type == 'x' || specifies->type == 'X' ||
-			specifies->type == 'p') &&
-			specifies->flag & FLAG_SHARP && 
-			specifies->firstch != '0')
+		if (((specifies->type == 'x' || specifies->type == 'X') &&
+			specifies->flag & FLAG_SHARP && specifies->firstch != '0')
+
+			|| specifies->type == 'p')
+
 			diff -= 2;
+
+
 		else if (((specifies->type == 'o' || specifies->type == 'O') &&
-			specifies->flag & FLAG_SHARP && specifies->firstch != '0') ||
-			(specifies->flag & FLAG_PLUS || specifies->flag & FLAG_SPACE) ||
-			((specifies->type == 'c' || specifies->type == 'C') &&
-			specifies->firstch == 0) ||
-			specifies->firstch == '-')
+			specifies->flag & FLAG_SHARP && specifies->firstch != '0')
+
+			|| ((specifies->flag & FLAG_PLUS || specifies->firstch == '-') &&(
+				specifies->type == 'd' || specifies->type == 'D' ||
+				specifies->type == 'i'))
+
+			|| (specifies->flag & FLAG_SPACE && specifies->type != 'c' &&
+				specifies->type != 's')
+
+			|| (specifies->type == 'c' && specifies->firstch == 0))
+
 			diff -= 1;
 		if (diff > 0)
 		{

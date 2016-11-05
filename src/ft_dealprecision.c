@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
+#include "../include/ft_printf.h"
 #include <stdio.h>//
 
 int				ft_dealprecision(t_specifies *specifies, char **str)

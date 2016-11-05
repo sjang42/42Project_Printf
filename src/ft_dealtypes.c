@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
-#include <stdio.h>
+#include "../include/ft_printf.h"
+#include <stdio.h>//
 
 static int ft_dealtypes_di(t_specifies *specifies, va_list ap, char **str)
 {
@@ -126,9 +125,11 @@ static int ft_dealtypes_psc(t_specifies *specifies, va_list ap, char **str)
 	}
 	if (specifies->type == 's')
 	{
-		*str = ft_strdup((char*)va_arg(ap, char*));
+		*str = (char*)va_arg(ap, char*);
 		if (!*str)
 			*str = ft_strdup("(null)");
+		else
+			*str = ft_strdup(*str);
 	}
 	else if (specifies->type == 'c')
 	{
@@ -141,7 +142,7 @@ static int ft_dealtypes_psc(t_specifies *specifies, va_list ap, char **str)
 	return (0);
 }
 
-static int ft_dealtypes_special(t_specifies *specifies, va_list ap, char **str)
+static int ft_dealtypes_special(t_specifies *specifies, char **str)
 {
 	if (specifies->type == '%')
 	{
@@ -175,7 +176,7 @@ int ft_dealtypes(t_specifies *specifies, va_list ap, char **str)
 			specifies->type == 'c')
 		ft_dealtypes_psc(specifies, ap, str);
 	else
-		ft_dealtypes_special(specifies, ap, str);
+		ft_dealtypes_special(specifies, str);
 	ft_dealminus(specifies, str);
 	if (*str)
 		return (1);

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
+#include "../include/ft_printf.h"
+#include <stdio.h>//
 
 void			ft_specifies_init(t_specifies *specifies)
 {
@@ -24,6 +24,8 @@ void			ft_specifies_init(t_specifies *specifies)
 	specifies->type = 0;
 	specifies->fromleft = 0;
 	specifies->firstch = 0;
+	specifies->specialtype = 0;
+
 }
 
 t_specifies		*ft_new_specifies(void)
@@ -54,7 +56,7 @@ int				ft_get_specifies(const char *restrict format,
 		return (-1);
 	i += checkerror;
 	i += ft_get_length(format + i, &(specifies->length));
-	checkerror = ft_get_type(format + i, &(specifies->type));
+	checkerror = ft_get_type(format + i, specifies);
 	if (checkerror == 0)
 		return (-1);
 	i += checkerror;

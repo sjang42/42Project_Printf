@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
+#include "../include/ft_printf.h"
 #include <stdio.h>//
 
 int ft_dealwidth(t_specifies *specifies, char **str)
@@ -21,7 +20,7 @@ int ft_dealwidth(t_specifies *specifies, char **str)
 
 	if (specifies->width == 0)
 		return (0);
-	if (specifies->flag & FLAG_ZERO && specifies->precision == 0 &&
+	if (specifies->flag & FLAG_ZERO && specifies->thereisprecision == 0 &&
 		specifies->fromleft != 1)
 		return (1);
 	diff = (specifies->width - ft_strlen(*str));

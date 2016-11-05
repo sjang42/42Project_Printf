@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
+#include "../include/ft_printf.h"
+#include <stdio.h>//
 
 static int		ft_itoa_getsize(size_t value, int base)
 {
@@ -65,7 +65,6 @@ static char		*ft_itoa_mkstr(size_t value, int base, char small, int size)
 
 char			*ft_itoa_base_prtf(size_t value, int base, char small)
 {
-	size_t	result;
 	int		size;
 
 	if (base <= 1)

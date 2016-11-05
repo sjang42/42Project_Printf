@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "use_libft.h"
-#include "ft_printf.h"
+#include "../include/ft_printf.h"
+#include <stdio.h>//
 
 WINT_T	*ft_strcpy_wd(WINT_T *dst, const WINT_T *src)
 {

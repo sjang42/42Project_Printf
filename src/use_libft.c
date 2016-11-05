@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "use_libft.h"
-#include <stdlib.h>
+#include "../include/ft_printf.h"
+#include <stdio.h>//
 
 static int	get_positional_int(int nb)
 {

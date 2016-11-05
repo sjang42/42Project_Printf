@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dealminus.c                                     :+:      :+:    :+:   */
+/*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sjang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/02 16:23:19 by sjang             #+#    #+#             */
-/*   Updated: 2016/11/02 16:23:30 by sjang            ###   ########.fr       */
+/*   Created: 2016/11/05 11:07:43 by sjang             #+#    #+#             */
+/*   Updated: 2016/11/05 11:07:44 by sjang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
+#ifndef MAIN_H
+# define MAIN_H
 
-int ft_dealminus(t_specifies *specifies, char **str)
-{
-	specifies->firstch = (*str)[0];
-	if ((*str)[0] == '-')
-	{
-		ft_memmove(*str, (*str) + 1, ft_strlen(*str));
-		return (1);
-	}
-	if (specifies->precision == 0 && specifies->thereisprecision == 1 && 
-		(*str)[0] == '0' && specifies->type != 'c')
-		*str[0] = 0;
-	return (0);
-}
+# include "./include/ft_printf.h"
+# include <stdio.h>
+
+#endif

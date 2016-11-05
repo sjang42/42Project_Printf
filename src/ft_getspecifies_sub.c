@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "use_libft.h"
-#include <stdio.h>///
+#include "../include/ft_printf.h"
+#include <stdio.h>//
 
 int		ft_get_flag(const char *restrict format, enum e_printfflags	*flag)
 {
@@ -131,10 +130,12 @@ int		ft_get_precision(const char *restrict format,
 	{
 		if (!specifies->thereiswidth && minus == -1)
 		{
-			specifies->width = (tempprecision != 0) ? tempprecision : -1;
-			specifies->fromleft = 1;
+			specifies->width = tempprecision;
 			specifies->thereisprecision = 0;
+			specifies->fromleft = 1;
 		}
+		else if (minus == -1)
+			specifies->thereisprecision = 0;
 		else
 			specifies->precision = tempprecision * minus;
 	}
@@ -165,7 +166,7 @@ int			ft_get_length(const char *restrict format, char *length)
 	return (0);
 }
 
-int		ft_get_type(const char *restrict format, char *type)
+int		ft_get_type(const char *restrict format, t_specifies *specifies)
 {
 	if (format[0] == 's' || format[0] == 'S' || format[0] == 'p' ||
 		format[0] == 'd' || format[0] == 'D' || format[0] == 'i' ||
@@ -173,13 +174,14 @@ int		ft_get_type(const char *restrict format, char *type)
 		format[0] == 'U' || format[0] == 'x' || format[0] == 'X' ||
 		format[0] == 'c' || format[0] == 'C' || format[0] == '%')
 	{
-		if (type)
-			*type = format[0];
+		if (specifies)
+			specifies->type = format[0];
 		return (1);
 	}
-	else if (type)
+	else if (specifies)
 	{
-		*type = format[0];
+		specifies->type = format[0];
+		specifies->specialtype = 1;
 		return (1);
 	}
 	return (0);
