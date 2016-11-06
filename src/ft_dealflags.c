@@ -45,6 +45,7 @@ int		ft_dealflag(t_specifies *specifies, char **str)
 			|| (specifies->type == 'c' && specifies->firstch == 0))
 
 			diff -= 1;
+
 		if (diff > 0)
 		{
 			temp = (char*)malloc(sizeof(char) * (ft_strlen(*str) + diff + 1));

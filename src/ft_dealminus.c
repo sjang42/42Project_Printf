@@ -22,7 +22,10 @@ int ft_dealminus(t_specifies *specifies, char **str)
 		return (1);
 	}
 	if (specifies->precision == 0 && specifies->thereisprecision == 1 && 
-		(*str)[0] == '0' && specifies->type != 'c')
+		(*str)[0] == '0' && specifies->type != 'c'
+		&& !((specifies->type == 'o' || specifies->type == 'O') &&
+			specifies->flag & FLAG_SHARP)
+		)
 		*str[0] = 0;
 	return (0);
 }

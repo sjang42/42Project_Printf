@@ -19,6 +19,10 @@ int				ft_dealprecision(t_specifies *specifies, char **str)
 	char *temp;
 
 	diff = specifies->precision - ft_strlen(*str);
+	if ((specifies->type == 'o' || specifies->type == 'O') &&
+		specifies->firstch != '0' &&specifies->flag & FLAG_SHARP)
+		diff--;
+		
 	if ((specifies->type == 'd' || specifies->type == 'D' ||
 		specifies->type == 'u' || specifies->type == 'U' ||
 		specifies->type == 'o' || specifies->type == 'O' ||
