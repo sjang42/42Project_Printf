@@ -72,7 +72,8 @@ int 						ft_dealtypes(t_specifies *specifies, va_list ap, char **str);
 int							ft_dealminus(t_specifies *specifies, char **str);
 
 
-int 						ft_dealtypes_wd(t_specifies *specifies, va_list ap, WINT_T **str);
+int 						ft_dealtypes_wd(t_specifies *specifies, va_list ap, WCHAR_T **str_wd, char **str);
+
 int 						ft_dealtypes_getbase(t_specifies *specifies);
 
 char						*ft_itoa_base_prtf(size_t value, int base, char small);
@@ -84,10 +85,11 @@ WINT_T						*ft_strcpy_wd(WINT_T *dst, const WINT_T *src);
 size_t						ft_strlen_wd(const WINT_T *s);
 WINT_T						*ft_strdup_wd(const WINT_T *s);
 
+int							ft_putchar_wd(char const ch);
+void						ft_putstr_wd(WCHAR_T const *str);
+int							ft_countbites(wchar_t *str_wd);
 
 
-
-
-
+wchar_t						*ft_utf8to32le(wchar_t *wstr);
 
 #endif

@@ -11,17 +11,18 @@
 /* ************************************************************************** */
 
 #include "main.h"
+#include "string.h"
+#include <locale.h>
 
 int main(void)
 {
-	char *str = NULL;
 	int size[3];
 
-	size[0] = ft_printf("%.10o", 123);
+	setlocale(LC_ALL, "");
+	size[0] = ft_printf("{%30S}", L"我是一只猫。");
 	printf("%s\n", "");
-	size[1] = printf("%.10o", 123);
+	size[1] = printf("{%S}", L"我是一只猫。");
 	printf("%s\n", "");
-	// size[3] = printf("Bla bla %.*d\n", -45, 0);
 	printf("my size: %d\n", size[0]);
 	printf("sy size: %d\n", size[1]);
 	return (0);

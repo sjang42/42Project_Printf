@@ -37,8 +37,8 @@ int				ft_dealprecision(t_specifies *specifies, char **str)
 		free(*str);
 		*str = temp;
 	}
-	if (specifies->type == 's' && diff < 0 &&
-		specifies->thereisprecision)
+	if ((specifies->type == 's' || specifies->type == 'S') &&
+		diff < 0 && specifies->thereisprecision)
 	{
 		if (specifies->precision >= 0)
 			(*str)[specifies->precision] = 0;

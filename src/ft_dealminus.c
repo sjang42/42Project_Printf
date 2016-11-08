@@ -16,13 +16,14 @@
 int ft_dealminus(t_specifies *specifies, char **str)
 {
 	specifies->firstch = (*str)[0];
-	if ((*str)[0] == '-')
+	if ((*str)[0] == '-' && (specifies->type == 'i' || 
+			specifies->type == 'd' || specifies->type == 'D'))
 	{
 		ft_memmove(*str, (*str) + 1, ft_strlen(*str));
 		return (1);
 	}
 	if (specifies->precision == 0 && specifies->thereisprecision == 1 && 
-		(*str)[0] == '0' && specifies->type != 'c'
+		(*str)[0] == '0' && specifies->type != 'c' && specifies->type != 'C'
 		&& !((specifies->type == 'o' || specifies->type == 'O') &&
 			specifies->flag & FLAG_SHARP)
 		)

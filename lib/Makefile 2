@@ -5,45 +5,36 @@
 #                                                     +:+ +:+         +:+      #
 #    By: sjang <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/05 11:07:11 by sjang             #+#    #+#              #
-#    Updated: 2016/11/05 11:07:12 by sjang            ###   ########.fr        #
+#    Created: 2016/11/05 10:24:02 by sjang             #+#    #+#              #
+#    Updated: 2016/11/05 10:24:03 by sjang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-TARGET = a.out
-
-LIB1 = libftprintf.a
-LIB2 = libft.a
-
-OBJECTS1 = ft_dealflags.o ft_dealminus.o ft_dealprecision.o ft_dealtypes.o\
+TARGET = libftprintf.a
+OBJECTS = ft_dealflags.o ft_dealminus.o ft_dealprecision.o ft_dealtypes.o\
 			ft_dealtypes_part2.o ft_dealwidth.o ft_getspecifies.o\
 			ft_getspecifies_sub.o ft_itoa_base_prtf.o ft_mknbr.o ft_wchar.o\
-			ft_printf.o ft_utfconvert.o
-OBJECTS2 = main.c
+			ft_printf.o
 
-SRC = ./src/
-ICL = ./include/
+SRC = ../src/
+ICL = ../include/
 CC = gcc
-CFLAG = -c
+CFLAG = -Werror -Wall -Wextra -c
 AR = ar rc
 RLIB = ranlib
 RM = /bin/rm -f
-LB = -L./ -lftprintf  -L./lib/ -lft
+LB = -L./ -lft
 
 .PHONY : clean fclean re
 
 all : $(TARGET)
 
-$(TARGET) : $(LIB1) $(OBJECTS2)
-	$(CC) $(OBJECTS2) $(LB)
+$(TARGET) : $(OBJECTS)
+	$(AR) $(TARGET) $(OBJECTS)
+	$(RLIB) $(TARGET)
 
-$(LIB1) : $(OBJECTS1)
-	$(AR) $(LIB1) $(OBJECTS1)
-	$(RLIB) $(LIB1)
-
-
-ft_utfconvert.o : $(SRC)ft_utfconvert.c $(ICL)libft.h $(ICL)ft_printf.h
-	$(CC) $(CFLAG) -I$(ICL) $(SRC)ft_utfconvert.c
+ft_printf.o : $(SRC)ft_printf.c $(ICL)libft.h $(ICL)ft_printf.h
+	$(CC) $(CFLAG) -I$(ICL) $(SRC)ft_printf.c
 
 ft_dealflags.o : $(SRC)ft_dealflags.c $(ICL)libft.h $(ICL)ft_printf.h
 	$(CC) $(CFLAG) -I$(ICL) $(SRC)ft_dealflags.c
@@ -78,11 +69,8 @@ ft_mknbr.o : $(SRC)ft_mknbr.c $(ICL)libft.h $(ICL)ft_printf.h
 ft_wchar.o : $(SRC)ft_wchar.c $(ICL)libft.h $(ICL)ft_printf.h
 	$(CC) $(CFLAG) -I$(ICL) $(SRC)ft_wchar.c
 
-ft_printf.o : $(SRC)ft_printf.c $(ICL)libft.h $(ICL)ft_printf.h
-	$(CC) $(CFLAG) -I$(ICL) $(SRC)ft_printf.c
-
 clean :
-	$(RM) $(OBJECTS1)
+	$(RM) $(OBJECTS)
 fclean : clean
 	$(RM) $(TARGET)
 re : fclean all
