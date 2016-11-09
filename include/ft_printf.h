@@ -48,6 +48,7 @@ typedef struct				s_specifies
 	int						fromleft;
 	int						firstch;
 	int						specialtype;
+	int						widechar;
 	char					length;
 	char					type;
 }							t_specifies;
@@ -91,5 +92,6 @@ int							ft_countbites(wchar_t *str_wd);
 
 
 wchar_t						*ft_utf8to32le(wchar_t *wstr);
+char	*ft_removezero(wchar_t *wstr);
 
 #endif

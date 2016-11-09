@@ -16,6 +16,7 @@
 int				ft_dealprecision(t_specifies *specifies, char **str)
 {
 	int diff;
+	int tmp;
 	char *temp;
 
 	diff = specifies->precision - ft_strlen(*str);
@@ -37,8 +38,32 @@ int				ft_dealprecision(t_specifies *specifies, char **str)
 		free(*str);
 		*str = temp;
 	}
-	if ((specifies->type == 's' || specifies->type == 'S') &&
-		diff < 0 && specifies->thereisprecision)
+	if ((specifies->type == 'S' || (specifies->type == 's' &&
+			specifies->length == 'l')) && diff < 0 &&
+		specifies->thereisprecision)
+	{
+		if (specifies->precision >= 0)
+		{
+			tmp = specifies->precision;
+			while (1)
+			{
+				if ((unsigned char)((*str)[tmp]) < 0x80)
+				{
+					(*str)[tmp] = 0;
+					break;
+				}
+				else if ((unsigned char)((*str)[tmp]) < 0xc0)
+					tmp--;
+				else
+				{
+					(*str)[tmp] = 0;
+					break;
+				}
+			}
+		}
+	}
+	else if (specifies->type == 's' && diff < 0 &&
+		specifies->thereisprecision)
 	{
 		if (specifies->precision >= 0)
 			(*str)[specifies->precision] = 0;

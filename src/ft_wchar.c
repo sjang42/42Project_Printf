@@ -121,7 +121,41 @@ int			ft_countbites(wchar_t *str_wd)
 	return (count);
 }
 
-
+void			ft_showbyte(unsigned char value)
+{
+	if (value / 128 == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+	if ((value % 128) / 64 == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+	if ((value % 64) / 32 == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+	if ((value % 32) / 16 == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+	if ((value % 16) / 8 == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+	if ((value % 8) / 4 == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+	if ((value % 4) / 2 == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+	if ((value % 2) == 1)
+		write(1, "1", 1);
+	else
+		write(1, "0", 1);
+}
 
 int 		ft_dealtypes_wd(t_specifies *specifies, va_list ap,
 							wchar_t **str_wd, char **str)
@@ -141,7 +175,7 @@ int 		ft_dealtypes_wd(t_specifies *specifies, va_list ap,
 			(specifies->length == 'l' && specifies->type == 'c'))
 	{
 		*str_wd = (wchar_t*)malloc(sizeof(wchar_t) * 2);
-		(*str_wd)[0] = (char)va_arg(ap, wchar_t);
+		(*str_wd)[0] = (wchar_t)va_arg(ap, wchar_t);
 		(*str_wd)[1] = 0;
 		tmp = ft_utf8to32le(*str_wd);
 		free(*str_wd);
@@ -150,11 +184,15 @@ int 		ft_dealtypes_wd(t_specifies *specifies, va_list ap,
 	specifies->firstch = (*str_wd)[0];
 	if (*str_wd)
 	{
-		ft_mkemptystr(*str_wd, str);
-		return (ft_strlen_wd(*str_wd));
+		*str = ft_removezero(*str_wd);
+		free(*str_wd);
+		return (1);
 	}
 	return (0);
 }
+
+
+
 
 // int 		ft_dealtypes_wd(t_specifies *specifies, va_list ap,
 // 							wchar_t **str_wd, char **str)

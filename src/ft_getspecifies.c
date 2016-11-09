@@ -23,9 +23,9 @@ void			ft_specifies_init(t_specifies *specifies)
 	specifies->length = 0;
 	specifies->type = 0;
 	specifies->fromleft = 0;
+	specifies->widechar = 0;
 	specifies->firstch = 0;
 	specifies->specialtype = 0;
-
 }
 
 t_specifies		*ft_new_specifies(void)

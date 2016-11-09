@@ -175,7 +175,14 @@ int		ft_get_type(const char *restrict format, t_specifies *specifies)
 		format[0] == 'c' || format[0] == 'C' || format[0] == '%')
 	{
 		if (specifies)
+		{
 			specifies->type = format[0];
+		if (specifies->type == 'S' ||
+			(specifies->length == 'l' && specifies->type == 's')
+		||  (specifies->type == 'C' ||
+			(specifies->length == 'l' && specifies->type == 'c')))
+			specifies->widechar = 1;
+		}
 		return (1);
 	}
 	else if (specifies)

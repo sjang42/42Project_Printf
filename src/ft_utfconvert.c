@@ -13,6 +13,34 @@
 #include "../include/ft_printf.h"
 #include <stdio.h>//
 
+char	*ft_removezero(wchar_t *wstr)
+{
+	char	*ret;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	ret = (char*)malloc(sizeof(char) * (ft_countbites(wstr) + 1));
+	while (wstr[i])
+	{
+		if (((char*)wstr)[j + 0])
+			ret[k++] = ((char*)wstr)[j + 0];
+		if (((char*)wstr)[j + 1])
+			ret[k++] = ((char*)wstr)[j + 1];
+		if (((char*)wstr)[j + 2])
+			ret[k++] = ((char*)wstr)[j + 2];
+		if (((char*)wstr)[j + 3])
+			ret[k++] = ((char*)wstr)[j + 3];
+		j += 4;
+		i++;
+	}
+	ret[k] = 0;
+	return (ret);
+}
+
 wchar_t		*ft_utf8to32le(wchar_t *wstr)
 {  
  	wchar_t	*ret;
@@ -60,6 +88,14 @@ wchar_t		*ft_utf8to32le(wchar_t *wstr)
  	ret[i] = 0;
 	return (ret);
 }
+
+
+
+
+
+
+
+
 
 // unsigned char unicode2utf8(wchar_t uc)  
 // {  

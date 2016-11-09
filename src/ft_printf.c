@@ -29,12 +29,12 @@ int ft_printf(const char *restrict format, ...)
 	va_start(ap, format);
 	i = 0;
 	size = 0;
-	specifies = ft_new_specifies();
+	
 	while (format[i])
 	{
 		startpos = i;
 		str_wd = NULL;
-
+		specifies = ft_new_specifies();
 		while (format[i] != '%' && format[i] != 0)
 			i++;
 		size += i - startpos;
@@ -59,58 +59,23 @@ int ft_printf(const char *restrict format, ...)
 		ft_dealprecision(specifies, &str);
 		ft_dealflag(specifies, &str);
 		ft_dealwidth(specifies, &str);
-		if (specifies->type == 'S' ||
-			(specifies->length == 'l' && specifies->type == 's')
-		||  (specifies->type == 'C' ||
-			(specifies->length == 'l' && specifies->type == 'c')))
+		size += ft_strlen(str);
+		if (((specifies->type == 'c') || (specifies->type == 'C'))
+			&& specifies->firstch == 0)
 		{
-			if (((specifies->type == 'c') || specifies->type == 'C') &&
-				specifies->firstch == 0)
-			{
-				if (specifies->fromleft)
-					ft_putchar(0);
-				ft_putstr(str);
-				if (!specifies->fromleft)
-					ft_putchar(0);
-				size++;
-			}
-			else if (specifies->fromleft)
-			{
-				ft_putstr_wd(str_wd);
-				ft_putstr(str + ft_strlen_wd(str_wd));
-			}
-			else
-			{
-				str[ft_strlen(str) - ft_strlen_wd(str_wd)] = 0;
-				ft_putstr(str);
-				ft_putstr_wd(str_wd);
-			}
-			printf("[%d]\n", ft_strlen_wd(str_wd));
-			printf("[%d]\n", ft_strlen(str));
-			size += ft_countbites(str_wd) + ft_strlen(str) - ft_strlen_wd(str_wd);
+			if (specifies->fromleft)
+				ft_putchar(0);
+			ft_putstr(str);
+			if (!specifies->fromleft)
+				ft_putchar(0);
+			size++;
 		}
 		else
-		{
-			size += ft_strlen(str);
-			if ((specifies->type == 'c') && specifies->firstch == 0)
-			{
-
-				if (specifies->fromleft)
-					ft_putchar(0);
-				ft_putstr(str);
-				if (!specifies->fromleft)
-					ft_putchar(0);
-				size++;
-			}
-			else
-				ft_putstr(str);
-		}
+			ft_putstr(str);
 		if (str)
 			free(str);
-		if (str_wd)
-			free(str_wd);
+		free(specifies);
 	}
-	free(specifies);
 	va_end(ap); 
 	return (size);
 }
