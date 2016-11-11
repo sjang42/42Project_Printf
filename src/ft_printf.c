@@ -11,80 +11,95 @@
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
-#include <stdio.h>//
 
-void	cheat_print_specifies(t_specifies *specifies);
-
-int ft_printf(const char *restrict format, ...)
+static int		ft_untilsp(const char *restrict format)
 {
 	int i;
-	int size;
-	int startpos;
-	int		err;
-	char		*str;
-	wchar_t		*str_wd;
-	t_specifies *specifies;
-	va_list ap;
 
-	va_start(ap, format);
+	i = 0;
+	while (format[i] != '%' && format[i] != 0)
+		i++;
+	write(1, format, i);
+	return (i);
+}
+
+static int		ft_deal_specifies(const char *restrict format, va_list ap,
+									t_specifies **pspecifies, char **str)
+{
+	int				ret;
+	t_specifies		*specifies;
+
+	*pspecifies = ft_new_specifies();
+	specifies = *pspecifies;
+	ret = ft_get_specifies(format, specifies, ap);
+	if (specifies->type == 'S' ||
+		(specifies->length == 'l' && specifies->type == 's')
+	|| (specifies->type == 'C' ||
+		(specifies->length == 'l' && specifies->type == 'c')))
+		ft_dealtypes_wd(specifies, ap, str);
+	else
+		ft_dealtypes(specifies, ap, str);
+	ft_dealprecision(specifies, str);
+	ft_dealflag(specifies, str);
+	ft_dealwidth(specifies, str);
+	return (ret);
+}
+
+static int		ft_display_str(t_specifies *specifies, char *str)
+{
+	if (((specifies->type == 'c') || (specifies->type == 'C'))
+			&& specifies->firstch == 0)
+	{
+		if (specifies->fromleft)
+			ft_putchar(0);
+		ft_putstr(str);
+		if (!specifies->fromleft)
+			ft_putchar(0);
+		return (1);
+	}
+	else
+	{
+		ft_putstr(str);
+		return (0);
+	}
+}
+
+static int		ft_printf_sub(const char *restrict format, va_list ap)
+{
+	int				i;
+	int				size;
+	int				tmp;
+	char			*str;
+	t_specifies		*specifies;
+
 	i = 0;
 	size = 0;
-	
 	while (format[i])
 	{
-		startpos = i;
-		str_wd = NULL;
-		specifies = ft_new_specifies();
-		while (format[i] != '%' && format[i] != 0)
-			i++;
-		size += i - startpos;
-		write(1, format + startpos, i - startpos);
+		tmp = ft_untilsp(format + i);
+		i += tmp;
+		size += tmp;
 		if (!(format[i]) || !(format[i + 1]))
-			break;
+			break ;
 		i++;
-		err = ft_get_specifies(format + i, specifies, ap);
-		// cheat_print_specifies(specifies);
-		if (err == -1)
-			return (-1);
-		i += err;
-		if (specifies->type == 'S' ||
-			(specifies->length == 'l' && specifies->type == 's')
-		||  (specifies->type == 'C' ||
-			(specifies->length == 'l' && specifies->type == 'c')))
-			ft_dealtypes_wd(specifies, ap, &str_wd, &str);
-		else
-			err = ft_dealtypes(specifies, ap, &str);
-		if (err == 0)
-			return (-1);
-		ft_dealprecision(specifies, &str);
-		ft_dealflag(specifies, &str);
-		ft_dealwidth(specifies, &str);
+		i += ft_deal_specifies(format + i, ap, &specifies, &str);
 		size += ft_strlen(str);
-		if (((specifies->type == 'c') || (specifies->type == 'C'))
-			&& specifies->firstch == 0)
-		{
-			if (specifies->fromleft)
-				ft_putchar(0);
-			ft_putstr(str);
-			if (!specifies->fromleft)
-				ft_putchar(0);
-			size++;
-		}
-		else
-			ft_putstr(str);
+		size += ft_display_str(specifies, str);
 		if (str)
 			free(str);
-		free(specifies);
+		if (specifies)
+			free(specifies);
 	}
-	va_end(ap); 
 	return (size);
 }
 
-void	cheat_print_specifies(t_specifies *specifies)
+int				ft_printf(const char *restrict format, ...)
 {
-	printf("flag :		%d\n", specifies->flag);
-	printf("width :		%d\n", specifies->width);
-	printf("precision :	%d\n", specifies->precision);
-	printf("length :	%d\n", specifies->length);
-	printf("type :		%d\n", specifies->type);
+	int			size;
+	va_list		ap;
+
+	va_start(ap, format);
+	size = ft_printf_sub(format, ap);
+	va_end(ap);
+	return (size);
 }

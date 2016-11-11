@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
-#include <stdio.h>//
 
-int		ft_get_flag(const char *restrict format, enum e_printfflags	*flag)
+int				ft_get_flag(const char *restrict format, t_specifies *specifies)
 {
 	int i;
 
@@ -21,128 +20,26 @@ int		ft_get_flag(const char *restrict format, enum e_printfflags	*flag)
 	while (1)
 	{
 		if (format[i] == '0')
-			*flag |= FLAG_ZERO;
+			specifies->flag |= FLAG_ZERO;
 		else if (format[i] == '#')
-			*flag |= FLAG_SHARP;
+			specifies->flag |= FLAG_SHARP;
 		else if (format[i] == '+')
-			*flag |= FLAG_PLUS;
+			specifies->flag |= FLAG_PLUS;
 		else if (format[i] == '-')
-			*flag |= FLAG_MINUS;
+		{
+			specifies->flag |= FLAG_MINUS;
+			specifies->fromleft = 1;
+		}
 		else if (format[i] == ' ')
-			*flag |= FLAG_SPACE;
+			specifies->flag |= FLAG_SPACE;
 		else
-			break;
+			break ;
 		i++;
 	}
 	return (i);
 }
 
-int		ft_get_width(const char *restrict format,
-					t_specifies *specifies, va_list ap)
-{
-	int		i;
-	int		tempwidth;
-	int 	star;
-	int		count;
-
-	i = 0;
-	tempwidth = 0;
-	count = 0;
-	while (format[i] != 0 &&
-		!ft_get_precision(format + i, NULL, 0) &&
-			!ft_get_length(format + i, NULL) &&
-			!ft_get_type(format + i, NULL))
-	{
-		if (format[i] == '*')
-		{
-			tempwidth = (int)va_arg(ap, int);
-			star = 1;
-			if (tempwidth < 0)
-			{
-				tempwidth *= -1;
-				specifies->fromleft = 1;
-			}
-		}
-		else if (ft_isdigit(format[i]))
-		{
-			if (star)
-			{
-				tempwidth = 0;
-				star = 0;
-			}
-			tempwidth = (tempwidth * 10) + (format[i] - '0');
-		}
-		else if (format[i] == 0 || format[i] != '%')
-			break;
-		specifies->thereiswidth = 1;
-		count++;
-		i++;
-	}
-	if (specifies && count)
-		specifies->width = tempwidth;
-	return (count);
-}
-
-int		ft_get_precision(const char *restrict format,
-							t_specifies *specifies, va_list ap)
-{
-	int		i;
-	int		minus;
-	int		star;
-	int		tempprecision;
-	int		count;
-
-	count = 1;
-	star = 0;
-	tempprecision = 0;
-	if (format[0] != '.')
-		return (0);
-	if (specifies)
-		specifies->thereisprecision = 1;
-	i = 1;
-	minus = 1;
-	while (format[i] != 0 &&
-		!ft_get_length(format + i, NULL) && !ft_get_type(format + i, NULL))
-	{
-		if (i == 1 && format[i] == '*' && ap)
-		{
-			star = 1;
-			if ((tempprecision = (int)va_arg(ap, int)) < 0)
-				minus = -1;
-		}
-		else if (i == 1 && format[1] == '-')
-			minus = -1;
-		else if (ft_isdigit(format[i]))
-		{
-			if (star)
-			{
-				tempprecision = 0;
-				star = 0;
-			}
-			tempprecision = (tempprecision * 10) + (format[i] - '0');
-		}
-		else
-			break;
-		count++;
-		i++;
-	}
-	if (specifies)
-	{
-		if (!specifies->thereiswidth && minus == -1)
-		{
-			specifies->width = tempprecision;
-			specifies->thereisprecision = 0;
-			specifies->fromleft = 1;
-		}
-		else if (minus == -1)
-			specifies->thereisprecision = 0;
-		else
-			specifies->precision = tempprecision * minus;
-	}
-	return (count);
-}
-
-int			ft_get_length(const char *restrict format, char *length)
+int				ft_get_length(const char *restrict format, char *length)
 {
 	if (format[0] == 'h' && format[1] == 'h')
 	{
@@ -166,30 +63,56 @@ int			ft_get_length(const char *restrict format, char *length)
 	return (0);
 }
 
-int		ft_get_type(const char *restrict format, t_specifies *specifies)
+static void		ft_getw_sub2(char ch, t_specifies *specifies,
+								va_list ap, t_widths *wd)
 {
-	if (format[0] == 's' || format[0] == 'S' || format[0] == 'p' ||
-		format[0] == 'd' || format[0] == 'D' || format[0] == 'i' ||
-		format[0] == 'o' || format[0] == 'O' || format[0] == 'u' ||
-		format[0] == 'U' || format[0] == 'x' || format[0] == 'X' ||
-		format[0] == 'c' || format[0] == 'C' || format[0] == '%')
+	if (ch == '*')
 	{
-		if (specifies)
+		wd->star = 1;
+		wd->tempwidth = (int)va_arg(ap, int);
+		if (wd->tempwidth < 0)
 		{
-			specifies->type = format[0];
-		if (specifies->type == 'S' ||
-			(specifies->length == 'l' && specifies->type == 's')
-		||  (specifies->type == 'C' ||
-			(specifies->length == 'l' && specifies->type == 'c')))
-			specifies->widechar = 1;
+			wd->tempwidth *= -1;
+			specifies->fromleft = 1;
 		}
-		return (1);
 	}
-	else if (specifies)
+	else if (ft_isdigit(ch))
 	{
-		specifies->type = format[0];
-		specifies->specialtype = 1;
-		return (1);
+		if (wd->star)
+		{
+			wd->star = 0;
+			wd->tempwidth = 0;
+		}
+		wd->tempwidth = (wd->tempwidth * 10) + (ch - '0');
 	}
-	return (0);
+}
+
+static void		ft_getw_sub(const char *restrict format,
+					t_specifies *specifies, va_list ap, t_widths *wd)
+{
+	while (format[wd->i] != 0 && !ft_get_precision(format + wd->i, NULL, 0) &&
+		!ft_get_length(format + wd->i, NULL) &&
+		!ft_get_type(format + wd->i, NULL))
+	{
+		if (format[wd->i] == '*' || ft_isdigit(format[wd->i]))
+			ft_getw_sub2(format[wd->i], specifies, ap, wd);
+		else
+			break ;
+		specifies->thereiswidth = 1;
+		(wd->i)++;
+	}
+}
+
+int				ft_get_width(const char *restrict format,
+					t_specifies *specifies, va_list ap)
+{
+	t_widths widths;
+
+	widths.i = 0;
+	widths.star = 0;
+	widths.tempwidth = 0;
+	ft_getw_sub(format, specifies, ap, &widths);
+	if (specifies && widths.i)
+		specifies->width = widths.tempwidth;
+	return (widths.i);
 }

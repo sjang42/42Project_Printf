@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
-#include <stdio.h>//
 
-void			ft_specifies_init(t_specifies *specifies)
+static void		ft_specifies_init(t_specifies *specifies)
 {
 	specifies->flag = FLAG_NOTHING;
 	specifies->width = 0;
@@ -23,7 +22,6 @@ void			ft_specifies_init(t_specifies *specifies)
 	specifies->length = 0;
 	specifies->type = 0;
 	specifies->fromleft = 0;
-	specifies->widechar = 0;
 	specifies->firstch = 0;
 	specifies->specialtype = 0;
 }
@@ -41,24 +39,12 @@ int				ft_get_specifies(const char *restrict format,
 									t_specifies *specifies, va_list ap)
 {
 	int i;
-	int checkerror;
 
 	i = 0;
-	i += ft_get_flag(format, &(specifies->flag));
-	if (specifies->flag & FLAG_MINUS)
-		specifies->fromleft = 1;
-	checkerror = ft_get_width(format + i, specifies, ap);
-	if (checkerror == -1)
-		return (-1);
-	i += checkerror;
-	checkerror = ft_get_precision(format + i, specifies, ap);
-	if (checkerror == -1)
-		return (-1);
-	i += checkerror;
+	i += ft_get_flag(format, specifies);
+	i += ft_get_width(format + i, specifies, ap);
+	i += ft_get_precision(format + i, specifies, ap);
 	i += ft_get_length(format + i, &(specifies->length));
-	checkerror = ft_get_type(format + i, specifies);
-	if (checkerror == 0)
-		return (-1);
-	i += checkerror;
+	i += ft_get_type(format + i, specifies);
 	return (i);
 }

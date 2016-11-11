@@ -14,14 +14,14 @@
 #include "string.h"
 #include <locale.h>
 
-int main(void)
+int		main(void)
 {
 	int size[3];
 
 	setlocale(LC_ALL, "");
-	size[0] = ft_printf("%s %C %d %p %x %% %S", "bonjour ", L'該', 42, &free, 42, L"لحم خنزير");
+	size[0] = ft_printf("{%.*d}", -5, 42);
 	printf("%s\n", "");
-	size[1] = printf("%s %C %d %p %x %% %S", "bonjour ", L'該', 42, &free, 42, L"لحم خنزير");
+	size[1] = printf("{%.*d}", -5, 42);
 	printf("%s\n", "");
 	printf("my size: %d\n", size[0]);
 	printf("sy size: %d\n", size[1]);

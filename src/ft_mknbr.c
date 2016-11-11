@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
-#include <stdio.h>//
 
 static long long	get_positional_longlong(long long nb, int *size)
 {

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/ft_printf.h"
-#include <stdio.h>//
 
 static int		ft_itoa_getsize(size_t value, int base)
 {
@@ -21,7 +20,7 @@ static int		ft_itoa_getsize(size_t value, int base)
 	while (value != 0)
 	{
 		value /= base;
-		size++; 
+		size++;
 	}
 	return (size);
 }
