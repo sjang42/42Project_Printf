@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 static long long	get_positional_longlong(long long nb, int *size)
 {

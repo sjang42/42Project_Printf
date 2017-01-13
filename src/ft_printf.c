@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 static int		ft_untilsp(const char *restrict format)
 {
@@ -23,8 +23,11 @@ static int		ft_untilsp(const char *restrict format)
 	return (i);
 }
 
-static int		ft_deal_specifies(const char *restrict format, va_list ap,
-									t_specifies **pspecifies, char **str)
+static int		ft_deal_specifies(
+					const char *restrict format,
+					va_list ap,
+					t_specifies **pspecifies,
+					char **str)
 {
 	int				ret;
 	t_specifies		*specifies;
@@ -45,7 +48,9 @@ static int		ft_deal_specifies(const char *restrict format, va_list ap,
 	return (ret);
 }
 
-static int		ft_display_str(t_specifies *specifies, char *str)
+static int		ft_display_str(
+				t_specifies *specifies,
+				char *str)
 {
 	if (((specifies->type == 'c') || (specifies->type == 'C'))
 			&& specifies->firstch == 0)
@@ -64,7 +69,9 @@ static int		ft_display_str(t_specifies *specifies, char *str)
 	}
 }
 
-static int		ft_printf_sub(const char *restrict format, va_list ap)
+static int		ft_printf_sub(
+				const char *restrict format,
+				va_list ap)
 {
 	int				i;
 	int				size;

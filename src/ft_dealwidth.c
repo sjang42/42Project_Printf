@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 static int	ft_dealw_getdiff(t_specifies *specifies, char **str)
 {

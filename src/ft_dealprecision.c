@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 static int		ft_dealp_getdiff(t_specifies *specifies, char **str)
 {

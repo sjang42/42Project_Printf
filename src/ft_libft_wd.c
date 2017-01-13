@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 wchar_t		*ft_strcpy_wd(wchar_t *dst, const wchar_t *src)
 {

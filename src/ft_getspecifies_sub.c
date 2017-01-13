@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 int				ft_get_flag(const char *restrict format, t_specifies *specifies)
 {

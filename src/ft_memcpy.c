@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sjang <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 11:02:37 by sjang             #+#    #+#             */
-/*   Updated: 2016/11/05 11:02:38 by sjang            ###   ########.fr       */
+/*   Created: 2016/09/23 12:57:05 by sjang             #+#    #+#             */
+/*   Updated: 2016/09/23 12:57:06 by sjang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
-#include "string.h"
-#include <locale.h>
+#include <ft_printf.h>
 
-int		main(void)
+void	*ft_memcpy(void *dest, const void *src, size_t count)
 {
-	int size[3];
+	size_t i;
 
-	setlocale(LC_ALL, "");
-	size[0] = ft_printf("{%.*d}", -5, 42);
-	printf("%s\n", "");
-	size[1] = printf("{%.*d}", -5, 42);
-	printf("%s\n", "");
-	printf("my size: %d\n", size[0]);
-	printf("sy size: %d\n", size[1]);
-	return (0);
+	i = 0;
+	while (i < count)
+	{
+		((char*)dest)[i] = ((char*)src)[i];
+		i++;
+	}
+	return (dest);
 }

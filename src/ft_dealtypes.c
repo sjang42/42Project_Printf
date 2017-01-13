@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 static int		ft_dealtypes_di(t_specifies *specifies, va_list ap, char **str)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 static void		ft_utf_put12(wchar_t *ret, wchar_t wc, int j)
 {

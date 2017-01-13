@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_printf.h"
+#include <ft_printf.h>
 
 static void	ft_dealf_zero(t_specifies *specifies, char **str,
 							int diff, char *temp)
@@ -42,7 +42,7 @@ static void	ft_dealf_zero(t_specifies *specifies, char **str,
 	}
 }
 
-static void	ft_delaf_sharp(t_specifies *specifies, char **str, char *temp)
+static void	ft_dealf_sharp(t_specifies *specifies, char **str, char *temp)
 {
 	if (specifies->firstch == '0' && specifies->type != 'p')
 		;
@@ -68,7 +68,7 @@ static void	ft_delaf_sharp(t_specifies *specifies, char **str, char *temp)
 	}
 }
 
-static void	ft_delaf_ps(t_specifies *specifies, char **str, char *temp)
+static void	ft_dealf_ps(t_specifies *specifies, char **str, char *temp)
 {
 	temp = (char*)malloc(sizeof(char) * (ft_strlen(*str) + 1));
 	ft_memcpy(temp, *str, ft_strlen(*str) + 1);
@@ -97,13 +97,13 @@ int			ft_dealflag(t_specifies *specifies, char **str)
 	}
 	if (specifies->flag & FLAG_SHARP)
 	{
-		ft_delaf_sharp(specifies, str, 0);
+		ft_dealf_sharp(specifies, str, 0);
 	}
 	if ((specifies->flag & FLAG_PLUS || specifies->flag & FLAG_SPACE ||
 		specifies->firstch == '-') && (specifies->type == 'i' ||
 		specifies->type == 'd' || specifies->type == 'D'))
 	{
-		ft_delaf_ps(specifies, str, 0);
+		ft_dealf_ps(specifies, str, 0);
 	}
 	return (1);
 }
