@@ -1,4 +1,4 @@
-## ft_printf - sjang@student.42.us.org
+# ft_printf - sjang@student.42.us.org
 
 ## 목차
 * [개요](#개요)
@@ -15,6 +15,20 @@
 해당 소스코드를 빌드하여 결과물인 `libftprintf.a`를 얻게 됩니다.
 이 라이브러리는 목표 함수인 printf에 관한 목적파일을 담고있는 라이브러리로
 이를 이용하여 다른 프로젝트에서 ft_printf 함수를 사용할 수 있습니다.
+
+### 지원
+* C library printf의 모든 포맷을 지원합니다.
+	* %s, %S, %p, %d, %D, %i, %o, %O, %u, %U, %x, %X, %c, %C
+	* 플래그간 복합사용 지원
+* %% 를 지원합니다.
+* 너비(field-width)와 정확도(precision)를 지원합니다.
+	* `%[flags][width][.precision]type`의 순서로 사용
+* wide character 사용을 지원합니다.
+	* `L"stirng"`, %S, %C
+* 길이 지정자를 지원합니다.
+	* hh, h, l, ll, j, z.
+* 동적 형식 지정자를 지원합니다.
+	* ex) printf("%*.*d\n", width, precision, number);
 
 ## 개발 환경
 * OS
@@ -65,6 +79,8 @@ make 프로그램이 설치되어있어야 합니다.
 1. `42Project_Printf.git/include` 디렉터리에 있는 "ft_printf.h" 헤더파일을 포함합니다.
 2. 앞서 빌드한 `libftprintf.a` 라이브러리 파일을 프로젝트 디렉터리로 옮깁니다.
 3. 컴파일시 `-lftprintf` 옵션을 추가합니다.
+
+C library의 printf와 마찬가지로 %[flags][width][.precision]type 순으로 사용할 수 있습니다.
 
 ## 사용 예제
 
