@@ -12,15 +12,15 @@
 
 #include <ft_printf.h>
 
-void	*ft_memcpy(void *dest, const void *src, size_t count)
+void    *ft_memcpy(void *dest, const void *src, size_t count)
 {
-	size_t i;
+    size_t i;
 
-	i = 0;
-	while (i < count)
-	{
-		((char*)dest)[i] = ((char*)src)[i];
-		i++;
-	}
-	return (dest);
+    i = 0;
+    while (i < count)
+    {
+        ((char*)dest)[i] = ((char*)src)[i];
+        i++;
+    }
+    return (dest);
 }

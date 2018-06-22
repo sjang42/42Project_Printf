@@ -13,14 +13,14 @@
 #include <locale.h>
 #include "main.h"
 
-int		main(void)
+int     main(void)
 {
-	int size[3];
+    int size[3];
 
-	setlocale(LC_ALL, "");
-	size[0] = ft_printf	("%-S\n", L"Test Success!😂");
-	size[1] = printf	("%-S\n", L"Test Success!😂");
-	printf("my size: %d\n", size[0]);
-	printf("sy size: %d\n", size[1]);
-	return (0);
+    setlocale(LC_ALL, "");
+    size[0] = ft_printf ("%-S\n", L"Test Success!😂");
+    size[1] = printf    ("%-S\n", L"Test Success!😂");
+    printf("my size: %d\n", size[0]);
+    printf("sy size: %d\n", size[1]);
+    return (0);
 }
